@@ -10,8 +10,16 @@ namespace HelloWorld
     {
         static void Main( string[] args )
         {
-           int x = 10;
-           Console.WriteLine("Hello world");
+
+            //string name;
+            //name = "Bob";
+            string name = "Bob";
+            Console.WriteLine(name);    
+        
+            double payRate = 4.5;
+
+            int x = 10;
+            Console.WriteLine("Hello world");
         }
     }
 }
