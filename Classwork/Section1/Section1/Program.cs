@@ -10,7 +10,34 @@ namespace Section1
     {
         static void Main( string[] args )
         {
-            DisplayMenu();
+            //DisplayMenu();
+            PlayWithStrings();
+        }
+
+        private static void PlayWithStrings()
+        {
+            string hoursString = "10";
+            
+            //int hours = Int32.Parse(hoursString);
+            //int hours;
+            //bool result = Int32.TryParse(hoursString, out hours);
+            //bool result = Int32.TryParse(hoursString, out int hours);
+
+            //hoursString = hours.ToString();
+            //4.75.ToString();
+            //457.ToString();
+            //Console.ReadLine().ToString();
+
+            string message = "Hello\tworld";
+            string filePath = "C:\\Temp\\Test";
+
+            //Verbatim strings
+            filePath = @"C:\Temp\Test";
+
+            //Concat
+            string firstName = "Bob";
+            string lastName = "Smith";
+            string name = firstName + " " + lastName;
         }
 
         private static void DisplayMenu()
