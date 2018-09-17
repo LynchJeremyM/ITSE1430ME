@@ -22,22 +22,19 @@ namespace PizzaCreator
         }
 
         private static bool DisplayMenu()
-        {
-
-            Console.WriteLine("Pizza Creator Menu");
-            Console.WriteLine("------------------");
-            Console.WriteLine("N)ew Order");
-            Console.WriteLine("M)odify Order");
-            Console.WriteLine("D)isplay Order");
-            Console.WriteLine("Q)uit");
-
-            GetCartPrice();
-
+        {            
             Console.WriteLine("Please type the first letter of the option you would like to do:");
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             while (true)
             {
+                Console.WriteLine("Pizza Creator Menu");
+                Console.WriteLine("------------------");
+                Console.WriteLine("N)ew Order");
+                Console.WriteLine("M)odify Order");
+                Console.WriteLine("D)isplay Order");
+                Console.WriteLine("Q)uit");
+
                 switch (choice.KeyChar)
                 {
                     case 'N':
