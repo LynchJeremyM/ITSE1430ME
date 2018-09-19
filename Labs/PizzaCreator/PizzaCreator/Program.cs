@@ -22,19 +22,19 @@ namespace PizzaCreator
         }
 
         private static bool DisplayMenu()
-        {            
+        {
+            Console.WriteLine("Pizza Creator Menu");
+            Console.WriteLine("------------------");
+            Console.WriteLine("N)ew Order");
+            Console.WriteLine("M)odify Order");
+            Console.WriteLine("D)isplay Order");
+            Console.WriteLine("Q)uit");
+
             Console.WriteLine("Please type the first letter of the option you would like to do:");
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             while (true)
-            {
-                Console.WriteLine("Pizza Creator Menu");
-                Console.WriteLine("------------------");
-                Console.WriteLine("N)ew Order");
-                Console.WriteLine("M)odify Order");
-                Console.WriteLine("D)isplay Order");
-                Console.WriteLine("Q)uit");
-
+            {                
                 switch (choice.KeyChar)
                 {
                     case 'N':
@@ -125,11 +125,12 @@ namespace PizzaCreator
             string message = "Are you satisfied with your choice?";
 
             Console.WriteLine("\nWhat size pizza would you like?");
-            Console.WriteLine("S)mall (5.00) \nM)edium($6.25)\nL)arge($8.75)");
-            ConsoleKeyInfo choice = Console.ReadKey(true);
 
-            do
+            do 
             {
+                Console.WriteLine("S)mall($5.00)\nM)edium($6.25)\nL)arge($8.75)\n");
+                ConsoleKeyInfo choice = Console.ReadKey(true);
+
                 switch (choice.KeyChar)
                 {
                     case 'S':
@@ -150,7 +151,6 @@ namespace PizzaCreator
 
                     default:
                     Console.WriteLine("Please enter a valid menu option: ");
-                    choice = Console.ReadKey(true);
                     break;
                 };
 
@@ -318,10 +318,15 @@ namespace PizzaCreator
             string sausage = "Sausage ";
             string meatsTotal = "";
 
+            bool baconCheck = false;
+            bool hamCheck = false;
+            bool pepperoniCheck = false;
+            bool sausageCheck = false;
+
             if (ConfirmChoice(message))
             {
 
-                message = "Do you wish to add more meat?";
+                message = "Do you wish to add or remove meat? To remove meat, select the same option previously selected.";
                 do
                 {
                     Console.WriteLine("Would you like: \nB)acon \nH)am \nP)epperoni \nS)ausage ");
@@ -331,27 +336,75 @@ namespace PizzaCreator
                     {
                         case 'B':
                         case 'b':
-                        meatsTotal += bacon;
-                        meats++;
-                        break;
+                            {
+                                if (baconCheck)
+                                {
+                                    meatsTotal = meatsTotal.Replace("Bacon ", "");
+                                    meats--;
+                                    break;
+                                } else
+                                {
+                                    baconCheck = true;
+                                    meatsTotal += bacon;
+                                    meats++;
+                                    break;
+                                }
+                            }
 
                         case 'H':
                         case 'h':
-                        meatsTotal += ham;
-                        meats++;
-                        break;
+                            {
+                                if (hamCheck)
+                                {
+                                    meatsTotal = meatsTotal.Replace("Ham ", "");
+                                    meats--;
+                                    break;
+                                } 
+                                else
+                                {
+                                    hamCheck = true;
+                                    meatsTotal += ham;
+                                    meats++;
+                                    break;
+                                }
+                            }
 
                         case 'P':
                         case 'p':
-                        meatsTotal += pepperoni;
-                        meats++;
-                        break;
+                            {
+                                if (pepperoniCheck)
+                                {
+                                    meatsTotal = meatsTotal.Replace("Pepperoni ", "");
+                                    meats--;
+                                    break;
+                                } 
+                                else
+                                {
+                                    pepperoniCheck = true;
+                                    meatsTotal += pepperoni;
+                                    meats++;
+                                    break;
+                                }
+
+                            }
 
                         case 'S':
                         case 's':
-                        meatsTotal += sausage;
-                        meats++;
-                        break;
+                            {
+                                if (sausageCheck)
+                                {
+                                    meatsTotal =meatsTotal.Replace("Sausage ", "");
+                                    meats--;
+                                    break;
+                                }
+                                else
+                                {
+                                    sausageCheck = true;
+                                    meatsTotal += sausage;
+                                    meats++;
+                                    break;
+                                }
+                            }
 
                         default:
                         Console.WriteLine("Please enter a valid option.");
@@ -360,7 +413,7 @@ namespace PizzaCreator
                     };
 
                     Console.WriteLine("You currently have: " + meatsTotal);
-                } while (ConfirmChoice(message));
+                } while (!ConfirmChoice(message));
             } else
             {
                 meats = 0;
@@ -385,9 +438,6 @@ namespace PizzaCreator
                     case 'n':
                     return false;
 
-                    default:
-                    Console.WriteLine("Please enter a valid option.");
-                    break;
                 };
             } while (true);
         }
