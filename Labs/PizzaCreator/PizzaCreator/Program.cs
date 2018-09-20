@@ -95,28 +95,123 @@ namespace PizzaCreator
 
         private static void ModifyOrder()
         {
-            throw new NotImplementedException();
+            if (existing)
+            {
+                string message = "Would you like to modify the pizza more?";
+
+                do
+                {
+                    bool valid = false;
+
+                    while (!valid)
+                    {
+                        Console.WriteLine("Modify: S)ize, M)eats, V)egetables, S(a)uce, C)heese, or D)elivery\n");
+                        ConsoleKeyInfo choice = Console.ReadKey(true);
+
+                        switch (choice.KeyChar)
+                        {
+                            case 'S':
+                            case 's':
+                                {
+                                    Console.WriteLine("Size: " + sizeTotal);
+                                    GetSize();
+                                    valid = true;
+                                    break;
+                                }
+
+                            case 'M':
+                            case 'm':
+                                {
+                                    if (meatsTotal == "")
+                                    {
+                                        Console.WriteLine("You currently have: No Meat\n");
+                                    } else
+                                    {
+                                        Console.WriteLine("You currently have: " + meatsTotal + "\n");
+                                    }
+                                    GetMeats();
+                                    valid = true;
+                                    break;
+                                }
+                            case 'V':
+                            case 'v':
+                                {
+                                    if (vegTotal == "")
+                                    {
+                                        Console.WriteLine("You currently have: No Vegetables\n");
+                                    } else
+                                    {
+                                        Console.WriteLine("You currently have: " + vegTotal + "\n");
+                                    }
+                                    GetVegetables();
+                                    valid = true;
+                                    break;
+                                }
+
+                            case 'A':
+                            case 'a':
+                                {
+                                    Console.WriteLine("Sauce: " + sauceTotal);
+                                    GetSauce();
+                                    valid = true;
+                                    break;
+                                }
+
+                            case 'C':
+                            case 'c':
+                                {
+                                    Console.WriteLine("Cheese: " + cheeseTotal);
+                                    GetCheese();
+                                    valid = true;
+                                    break;
+                                }
+
+                            case 'D':
+                            case 'd':
+                                {
+                                    Console.WriteLine("Take out or Delivery : " + deliveryTotal);
+                                    GetDelivery();
+                                    valid = true;
+                                    break;
+                                }
+
+                            default:
+                            Console.WriteLine("Please enter a valid option.\n");
+                            break;
+                        };                     
+                    };
+
+                    DisplayOrder();
+
+                } while (ConfirmChoice(message));
+            }
+            else
+            {
+                Console.WriteLine("There is no currently existing order.\n");
+                return;
+            }
         }
 
         private static void DisplayOrder()
         {
 
-            Console.WriteLine("Current Pizza Order");
-            Console.WriteLine("-------------------");
-            Console.WriteLine("Size:  " + size);
-            Console.WriteLine("Meats: " + meats);
-            Console.WriteLine("Vegetables: " + vegetables);
-            Console.WriteLine("Sauce: " + sauce);
-            Console.WriteLine("Cheese: " + cheese);
-            Console.WriteLine("Delievery or Take out: " + delivery);
-            GetCartPrice();
+            Console.WriteLine("\n\nCurrent Pizza Order");
+            Console.WriteLine("------------------------");
+            Console.WriteLine($"Size: {sizeTotal}   ${size}" );
+            Console.WriteLine($"Meats: {meatsTotal}   ${meats}");
+            Console.WriteLine($"Vegetables: {vegTotal}   ${vegetables}");
+            Console.WriteLine($"Sauce: {sauceTotal}   ${sauce}");
+            Console.WriteLine($"Cheese: {cheeseTotal}   ${cheese}");
+            Console.WriteLine($"Delivery or Take out: {deliveryTotal}   ${delivery}");
+            Console.WriteLine("------------------------");
+            GetCartPrice();          
         }
 
         private static void GetCartPrice()
         {
             // Format to 2 decimal places. ToString("0.00"), ("c2")?
             cartPrice = (size + (meats * .5) + (vegetables * .5) + sauce + cheese + delivery);
-            Console.WriteLine($"\nCurrent cart price is: ${cartPrice}");
+            Console.WriteLine($"Total Price: ${cartPrice} \n");
 
         }
 
@@ -128,32 +223,46 @@ namespace PizzaCreator
 
             do 
             {
-                Console.WriteLine("S)mall($5.00)\nM)edium($6.25)\nL)arge($8.75)\n");
-                ConsoleKeyInfo choice = Console.ReadKey(true);
+                bool valid = false;
 
-                switch (choice.KeyChar)
+                while (!valid)
                 {
-                    case 'S':
-                    case 's':
-                    size = 5.00;
-                    break;
+                    Console.WriteLine("S)mall($5.00)\nM)edium($6.25)\nL)arge($8.75)\n");
+                    ConsoleKeyInfo choice = Console.ReadKey(true);
 
-                    case 'M':
-                    case 'm':
-                    size = 6.25;
-                    break;
+                    switch (choice.KeyChar)
+                    {
+                        case 'S':
+                        case 's':
+                        sizeTotal = "Small";
+                        size = 5.00;
+                        valid = true;
+                        break;
 
 
-                    case 'L':
-                    case 'l':
-                    size = 8.75;
-                    break;
+                        case 'M':
+                        case 'm':
+                        sizeTotal = "Medium";
+                        size = 6.25;
+                        valid = true;
+                        break;
 
-                    default:
-                    Console.WriteLine("Please enter a valid menu option: ");
-                    break;
+
+                        case 'L':
+                        case 'l':
+                        sizeTotal = "Large";
+                        size = 8.75;
+                        valid = true;
+                        break;
+
+
+                        default:
+                        Console.WriteLine("Please enter a valid option.\n");
+                        break;
+                    };
+
+                    Console.WriteLine("Size: " + sizeTotal);
                 };
-
             } while (!ConfirmChoice(message));
 
             GetCartPrice();
@@ -163,27 +272,37 @@ namespace PizzaCreator
         {
             string message = "Are you satisfied with your choice?";
 
-            Console.WriteLine("\nT)ake out($0) or D)elivery($2.50)?");
+            Console.WriteLine("T)ake out($0) or D)elivery($2.50)?");
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             do
             {
-                switch (choice.KeyChar)
+                bool valid = false;
+
+                while (!valid)
                 {
-                    case 'T':
-                    case 't':
-                    delivery = 0;
-                    break;
+                    switch (choice.KeyChar)
+                    {
+                        case 'T':
+                        case 't':
+                        deliveryTotal = "Take out";
+                        delivery = 0;
+                        valid = true;
+                        break;
 
-                    case 'D':
-                    case 'd':
-                    delivery = 2.50;
-                    break;
+                        case 'D':
+                        case 'd':
+                        deliveryTotal = "Delivery";
+                        delivery = 2.50;
+                        valid = true;
+                        break;
 
-                    default:
-                    Console.WriteLine("Please enter a valid option.");
-                    choice = Console.ReadKey(true);
-                    break;
+                        default:
+                        Console.WriteLine("Please enter a valid option.");
+                        choice = Console.ReadKey(true);
+                        break;
+                    };
+                    Console.WriteLine("\nTake out or Delivery : " + deliveryTotal);
                 };
             } while (!ConfirmChoice(message));
         }
@@ -192,75 +311,105 @@ namespace PizzaCreator
         {
             string message = "Are you satisfied with your choice?";
 
-            Console.WriteLine("\nWould you like T)raditional, G)arlic ($1.00), or O)regano($1.00) sauce?");
+            Console.WriteLine("Would you like T)raditional($0.00), G)arlic ($1.00), or O)regano($1.00) sauce?");
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             do
             {
-                switch (choice.KeyChar)
+                bool valid = false;
+
+                while (!valid)
                 {
-                    case 'T':
-                    case 't':
-                    sauce = 1.00;
-                    break;
+                    switch (choice.KeyChar)
+                    {
+                        case 'T':
+                        case 't':
+                        sauceTotal = "Traditional";
+                        sauce = 0;
+                        valid = true;
+                        break;
 
-                    case 'D':
-                    case 'd':
-                    sauce = 1.00;
-                    break;
+                        case 'G':
+                        case 'g':
+                        sauceTotal = "Garlic";
+                        sauce = 1.00;
+                        valid = true;
+                        break;
 
-                    case 'O':
-                    case 'o':
-                    sauce = 1.00;
-                    break;
+                        case 'O':
+                        case 'o':
+                        sauceTotal = "Oregano";
+                        sauce = 1.00;
+                        valid = true;
+                        break;
 
-                    default:
-                    Console.WriteLine("Please enter a valid option.");
-                    choice = Console.ReadKey(true);
-                    break;
+                        default:
+                        Console.WriteLine("Please enter a valid option.");
+                        choice = Console.ReadKey(true);
+                        break;
+                    };
+
+                    Console.WriteLine("\nSauce: " + sauceTotal);
                 };
             } while (!ConfirmChoice(message));
+
+            GetCartPrice();
         }
 
         private static void GetCheese()
         {
             string message = "Are you satisfied with your choice?";
 
-            Console.WriteLine("\nR)egular($0) or E)xtra cheese($1.25)?");
+            Console.WriteLine("R)egular($0) or E)xtra cheese($1.25)?");
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             do
             {
-                switch (choice.KeyChar)
+                bool valid = false;
+
+                while (!valid)
                 {
-                    case 'R':
-                    case 'r':
-                    cheese = 0;
-                    break;
+                    switch (choice.KeyChar)
+                    {
+                        case 'R':
+                        case 'r':
+                        cheeseTotal = "Regular";
+                        cheese = 0;
+                        valid = true;
+                        break;
 
-                    case 'E':
-                    case 'e':
-                    cheese = 1.25;
-                    break;
+                        case 'E':
+                        case 'e':
+                        cheeseTotal = "Extra";
+                        cheese = 1.25;
+                        valid = true;
+                        break;
 
-                    default:
-                    Console.WriteLine("Please enter a valid option.");
-                    choice = Console.ReadKey(true);
-                    break;
+                        default:
+                        Console.WriteLine("Please enter a valid option.");
+                        choice = Console.ReadKey(true);
+                        break;
+                    };
+
+                    Console.WriteLine("\nCheese: " + cheeseTotal);
                 };
             } while (!ConfirmChoice(message));
 
-
+            GetCartPrice();
         }
 
         private static void GetVegetables()
         {
-            string message = "\nWould you like any vegetables? Every vegetable adds $0.50 to your order. ";
-            string vegTotal = "";
+            string message = "Would you like any vegetables? Every vegetable adds $0.50 to your order. ";    
             string olives = "Black Olives ";
             string mushrooms = "Mushrooms ";
             string onions = "Onions ";
             string peppers = "Peppers ";
+
+            bool olivesCheck = false;
+            bool mushroomsCheck = false;
+            bool onionsCheck = false;
+            bool peppersCheck = false;
 
             if (ConfirmChoice(message))
             {
@@ -271,52 +420,118 @@ namespace PizzaCreator
                     Console.WriteLine("Would you like: \nB)lack Olives \nM)ushrooms \nO)nions \nP)eppers ");
                     ConsoleKeyInfo choice = Console.ReadKey(true);
 
-                    switch (choice.KeyChar)
+                    bool valid = false;
+
+                    while (!valid)
                     {
-                        case 'B':
-                        case 'b':
-                        vegetables++;
-                        vegTotal += olives;
-                        break;
+                        switch (choice.KeyChar)
+                        {
+                            case 'B':
+                            case 'b':
+                                {
+                                    valid = true;
+                                    if (olivesCheck)
+                                    {
+                                        olivesCheck = false;
+                                        vegTotal = vegTotal.Replace("Black Olives ", "");
+                                        vegetables--;
+                                        break;
+                                    } else
+                                    {
+                                        olivesCheck = true;
+                                        vegetables++;
+                                        vegTotal += olives;
+                                        break;
+                                    }                                  
+                                }
 
-                        case 'M':
-                        case 'm':
-                        vegetables++;
-                        vegTotal += mushrooms;
-                        break;
+                            case 'M':
+                            case 'm':
+                                {
+                                    valid = true;
+                                    if (mushroomsCheck)
+                                    {
+                                        mushroomsCheck = false;
+                                        vegTotal = vegTotal.Replace("Mushrooms ", "");
+                                        vegetables--;
+                                        break;
+                                    } else
+                                    {
+                                        mushroomsCheck = true;
+                                        vegetables++;
+                                        vegTotal += mushrooms;
+                                        break;
+                                    }
+                                }
+                            case 'O':
+                            case 'o':
+                                {
+                                    valid = true;
+                                    if (onionsCheck)
+                                    {
+                                        onionsCheck = false;
+                                        vegTotal = vegTotal.Replace("Onions ", "");
+                                        vegetables--;
+                                        break;
+                                    } else
+                                    {
+                                        onionsCheck = true;
+                                        vegetables++;
+                                        vegTotal += onions;
+                                        break;
+                                    }
+                                }
+                            case 'P':
+                            case 'p':
+                                {
+                                    valid = true;
+                                    if (peppersCheck)
+                                    {
+                                        peppersCheck = false;
+                                        vegTotal = vegTotal.Replace("Peppers ", "");
+                                        vegetables--;
+                                        break;
+                                    } else
+                                    {
+                                        peppersCheck = true;
+                                        vegetables++;
+                                        vegTotal += peppers;
+                                        break;
+                                    }
+                                }
 
-                        case 'O':
-                        case 'o':
-                        vegetables++;
-                        vegTotal += onions;
-                        break;
-
-                        case 'P':
-                        case 'p':
-                        vegetables++;
-                        vegTotal += peppers;
-                        break;
-
-                        default:
-                        Console.WriteLine("Please enter a valid option.");
-                        choice = Console.ReadKey(true);
-                        break;
+                            default:
+                            Console.WriteLine("Please enter a valid option.\n");
+                            choice = Console.ReadKey(true);
+                            break;
+                        };
                     };
+
+                    if (vegTotal == "")
+                    {
+                        Console.WriteLine("You currently have: No Vegetables\n");
+                    } 
+                    else
+                    {
+                        Console.WriteLine("You currently have: " + vegTotal + "\n");
+                    }
+
                 } while (ConfirmChoice(message));
             } else
             {
                 vegetables = 0;
             }
+
+            GetCartPrice();
         }
 
         private static void GetMeats()
         {
-            string message = "\nWould you like any meat? Every meat adds $0.50 to your order.";
+            string message = "Would you like any meat? Every meat adds $0.50 to your order.";
             string bacon = "Bacon ";
             string ham = "Ham ";
             string pepperoni = "Pepperoni ";
             string sausage = "Sausage ";
-            string meatsTotal = "";
 
             bool baconCheck = false;
             bool hamCheck = false;
@@ -329,92 +544,111 @@ namespace PizzaCreator
                 message = "Do you wish to add or remove meat? To remove meat, select the same option previously selected.";
                 do
                 {
-                    Console.WriteLine("Would you like: \nB)acon \nH)am \nP)epperoni \nS)ausage ");
+                    Console.WriteLine("Would you like: \nB)acon \nH)am \nP)epperoni \nS)ausage \n");
                     ConsoleKeyInfo choice = Console.ReadKey(true);
 
-                    switch (choice.KeyChar)
+                    bool valid = false;
+
+                    while (!valid)
                     {
-                        case 'B':
-                        case 'b':
-                            {
-                                if (baconCheck)
+                        switch (choice.KeyChar)
+                        {
+                            case 'B':
+                            case 'b':
                                 {
-                                    meatsTotal = meatsTotal.Replace("Bacon ", "");
-                                    meats--;
-                                    break;
-                                } else
-                                {
-                                    baconCheck = true;
-                                    meatsTotal += bacon;
-                                    meats++;
-                                    break;
-                                }
-                            }
-
-                        case 'H':
-                        case 'h':
-                            {
-                                if (hamCheck)
-                                {
-                                    meatsTotal = meatsTotal.Replace("Ham ", "");
-                                    meats--;
-                                    break;
-                                } 
-                                else
-                                {
-                                    hamCheck = true;
-                                    meatsTotal += ham;
-                                    meats++;
-                                    break;
-                                }
-                            }
-
-                        case 'P':
-                        case 'p':
-                            {
-                                if (pepperoniCheck)
-                                {
-                                    meatsTotal = meatsTotal.Replace("Pepperoni ", "");
-                                    meats--;
-                                    break;
-                                } 
-                                else
-                                {
-                                    pepperoniCheck = true;
-                                    meatsTotal += pepperoni;
-                                    meats++;
-                                    break;
+                                    valid = true;
+                                    if (baconCheck)
+                                    {
+                                        baconCheck = false;
+                                        meatsTotal = meatsTotal.Replace("Bacon ", "");
+                                        meats--;
+                                        break;
+                                    } else
+                                    {
+                                        baconCheck = true;
+                                        meatsTotal += bacon;
+                                        meats++;
+                                        break;
+                                    }
                                 }
 
-                            }
-
-                        case 'S':
-                        case 's':
-                            {
-                                if (sausageCheck)
+                            case 'H':
+                            case 'h':
                                 {
-                                    meatsTotal =meatsTotal.Replace("Sausage ", "");
-                                    meats--;
-                                    break;
+                                    valid = true;
+                                    if (hamCheck)
+                                    {
+                                        hamCheck = false;
+                                        meatsTotal = meatsTotal.Replace("Ham ", "");
+                                        meats--;
+                                        break;
+                                    } else
+                                    {
+                                        hamCheck = true;
+                                        meatsTotal += ham;
+                                        meats++;
+                                        break;
+                                    }
                                 }
-                                else
-                                {
-                                    sausageCheck = true;
-                                    meatsTotal += sausage;
-                                    meats++;
-                                    break;
-                                }
-                            }
 
-                        default:
-                        Console.WriteLine("Please enter a valid option.");
-                        choice = Console.ReadKey(true);
-                        break;
+                            case 'P':
+                            case 'p':
+                                {
+                                    valid = true;
+                                    if (pepperoniCheck)
+                                    {
+                                        pepperoniCheck = false;
+                                        meatsTotal = meatsTotal.Replace("Pepperoni ", "");
+                                        meats--;
+                                        break;
+                                    } else
+                                    {
+                                        pepperoniCheck = true;
+                                        meatsTotal += pepperoni;
+                                        meats++;
+                                        break;
+                                    }
+
+                                }
+
+                            case 'S':
+                            case 's':
+                                {
+                                    valid = true;
+                                    if (sausageCheck)
+                                    {
+                                        sausageCheck = false;
+                                        meatsTotal = meatsTotal.Replace("Sausage ", "");
+                                        meats--;
+                                        break;
+                                    } else
+                                    {
+                                        sausageCheck = true;
+                                        meatsTotal += sausage;
+                                        meats++;
+                                        break;
+                                    }
+                                }
+
+                            default:
+                            Console.WriteLine("Please enter a valid option.\n");
+                            choice = Console.ReadKey(true);
+                            break;
+                        };
                     };
 
-                    Console.WriteLine("You currently have: " + meatsTotal);
-                } while (!ConfirmChoice(message));
-            } else
+                    if (meatsTotal == "")
+                    {
+                        Console.WriteLine("You currently have: No Meat\n");
+                    } 
+                    else
+                    {
+                        Console.WriteLine("You currently have: " + meatsTotal + "\n");
+                    }
+
+                } while (ConfirmChoice(message));
+            } 
+            else
             {
                 meats = 0;
             }
@@ -424,10 +658,12 @@ namespace PizzaCreator
 
         private static bool ConfirmChoice( string message )
         {
-            Console.WriteLine($"{message} (Y/N)");
-            ConsoleKeyInfo key = Console.ReadKey(true);
+            
             do
             {
+                Console.WriteLine($"{message} (Y/N)\n");
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
                 switch (key.KeyChar)
                 {
                     case 'Y':
@@ -438,10 +674,20 @@ namespace PizzaCreator
                     case 'n':
                     return false;
 
+                    default:
+                    Console.WriteLine("Please enter Y)es or N)o.");
+                    break;
+
                 };
             } while (true);
         }
 
+        private static string sizeTotal = "";       
+        private static string meatsTotal = "";
+        private static string vegTotal = "";
+        private static string sauceTotal = "";
+        private static string cheeseTotal = "";
+        private static string deliveryTotal = "";
         private static double size;
         private static double meats = 0;
         private static double vegetables = 0;
