@@ -204,7 +204,8 @@ namespace PizzaCreator
             Console.WriteLine($"Cheese: {cheeseTotal}   ${cheese}");
             Console.WriteLine($"Delivery or Take out: {deliveryTotal}   ${delivery}");
             Console.WriteLine("------------------------");
-            GetCartPrice();          
+            GetCartPrice();
+            Console.WriteLine("\n\n");
         }
 
         private static void GetCartPrice()
