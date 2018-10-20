@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Itse1430.MovieLib.Memory;
 
 namespace Itse1430.MovieLib.UI
 {
@@ -25,6 +26,10 @@ namespace Itse1430.MovieLib.UI
         protected override void OnLoad( EventArgs e )
         {
             base.OnLoad(e);
+
+            //Seed database
+            //var seed = new SeedDatabase();
+            SeedDatabase.Seed(_database);
 
             _listMovies.DisplayMember = "Name";
             RefreshMovies();
@@ -127,7 +132,7 @@ namespace Itse1430.MovieLib.UI
             return _listMovies.SelectedItem as Movie;
         }
 
-        private MovieDatabase _database = new MovieDatabase();
+        private MovieDatabase _database = new MemoryMovieDatabase();
 
         #endregion        
     }
