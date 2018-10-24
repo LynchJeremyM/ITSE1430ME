@@ -1,4 +1,8 @@
-﻿using System;
+﻿// ITSE-1430-20630
+// Jeremy Lynch
+// 10/22/18
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
