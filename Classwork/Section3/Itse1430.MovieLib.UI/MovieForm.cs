@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 
 namespace Itse1430.MovieLib.UI
@@ -51,12 +52,25 @@ namespace Itse1430.MovieLib.UI
             //movie.IsOwned = _chkOwned.Checked;
 
             //Initializer syntax
-            var movie = new Movie() {
+            var movie = new Movie()
+            {
                 Name = _txtName.Text,
                 Description = _txtDescription.Text,
                 ReleaseYear = GetInt32(_txtReleaseYear),
                 RunLength = GetInt32(_txtRunLength),
                 IsOwned = _chkOwned.Checked,
+            };
+
+            //Validate the movie
+            //Validator.TryValidateObject()
+            var results = ObjectValidator.Validate(movie);
+            foreach(var result in results)
+            //if (results.Count > 0)
+            {
+                //var firstMessage = results[0];
+                MessageBox.Show(this, result.ErrorMessage, "Validation Failed",
+                                MessageBoxButtons.OK);
+                return;
             };
 
             Movie = movie;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using Itse1430.MovieLib.Memory;
 
@@ -29,7 +30,8 @@ namespace Itse1430.MovieLib.UI
 
             //Seed database
             //var seed = new SeedDatabase();
-            SeedDatabase.Seed(_database);
+            //SeedDatabase.Seed(_database);
+            _database.Seed();
 
             _listMovies.DisplayMember = "Name";
             RefreshMovies();
@@ -41,7 +43,7 @@ namespace Itse1430.MovieLib.UI
         {
             if (MessageBox.Show("Are you sure you want to exit?",
                         "Close", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;           
+                return;
 
             Close();
         }
@@ -59,10 +61,10 @@ namespace Itse1430.MovieLib.UI
                 return;
 
             //Add to database and refresh
-            _database.Add(form.Movie);            
+            _database.Add(form.Movie);
             RefreshMovies();
         }
-                
+
         private void OnMovieDelete( object sender, EventArgs e )
         {
             DeleteMovie();
@@ -89,7 +91,7 @@ namespace Itse1430.MovieLib.UI
 
         #region Private Members
 
-        private void DeleteMovie ()
+        private void DeleteMovie()
         {
             //Get selected movie, if any
             var item = GetSelectedMovie();
@@ -101,7 +103,7 @@ namespace Itse1430.MovieLib.UI
             RefreshMovies();
         }
 
-        private void EditMovie ()
+        private void EditMovie()
         {
             //Get selected movie, if any
             var item = GetSelectedMovie();
@@ -119,20 +121,24 @@ namespace Itse1430.MovieLib.UI
             RefreshMovies();
         }
 
-        private void RefreshMovies ()
+        private void RefreshMovies()
         {
             var movies = _database.GetAll();
 
             _listMovies.Items.Clear();
-            _listMovies.Items.AddRange(movies);
+
+            //TODO: Hard way
+            //foreach (var movie in movies)
+                //_listMovies.Items.Add(movie);
+            _listMovies.Items.AddRange(movies.ToArray());
         }
 
-        private Movie GetSelectedMovie ()
+        private Movie GetSelectedMovie()
         {
             return _listMovies.SelectedItem as Movie;
         }
 
-        private MovieDatabase _database = new MemoryMovieDatabase();
+        private IMovieDatabase _database = new MemoryMovieDatabase();
 
         #endregion        
     }

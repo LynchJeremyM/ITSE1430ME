@@ -7,8 +7,8 @@ using System.Collections.Generic;
 namespace Itse1430.MovieLib
 {
     /// <summary>Manages a set of movies.</summary>
-    public abstract class MovieDatabase
-    {        
+    public abstract class MovieDatabase : IMovieDatabase
+    {
         /// <summary>Adds a movie to the database.</summary>
         /// <param name="movie">The movie to add.</param>
         public void Add( Movie movie )
@@ -19,14 +19,14 @@ namespace Itse1430.MovieLib
 
             AddCore(movie);
         }
-        
+
         /// <summary>Gets all the movies.</summary>
         /// <returns>The list of movies.</returns>
-        public Movie[] GetAll()
+        public IEnumerable<Movie> GetAll()
         {
             return GetAllCore();
         }
-                
+
         /// <summary>Edits an existing movie.</summary>
         /// <param name="name">The movie to edit.</param>
         /// <param name="movie">The new movie.</param>
@@ -45,7 +45,7 @@ namespace Itse1430.MovieLib
 
             EditCore(existing, movie);
         }
-        
+
         /// <summary>Removes a movie.</summary>
         /// <param name="name">The movie to remove.</param>
         public void Remove( string name )
@@ -67,7 +67,7 @@ namespace Itse1430.MovieLib
         /// <param name="oldMovie">The old movie.</param>
         /// <param name="newMovie">The new movie.</param>
         protected abstract void EditCore( Movie oldMovie, Movie newMovie );
-        
+
         /// <summary>Finds a movie by name.</summary>
         /// <param name="name">The name of the movie.</param>
         /// <returns>The movie, if any.</returns>
@@ -75,7 +75,7 @@ namespace Itse1430.MovieLib
 
         /// <summary>Gets all the movies.</summary>
         /// <returns>The list of movies.</returns>
-        protected abstract Movie[] GetAllCore();
+        protected abstract IEnumerable<Movie> GetAllCore();
 
         /// <summary>Removes a movie.</summary>
         /// <param name="name">The name of the movie.</param>
