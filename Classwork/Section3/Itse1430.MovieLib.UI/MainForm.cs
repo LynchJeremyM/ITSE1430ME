@@ -145,6 +145,7 @@ namespace Itse1430.MovieLib.UI
 
         private IMovieDatabase _database = new MemoryMovieDatabase();
 
-        #endregion        
+        #endregion
+
     }
 }
