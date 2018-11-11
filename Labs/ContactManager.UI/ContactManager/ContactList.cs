@@ -46,16 +46,16 @@ namespace ContactManager
                    };
         }
 
-        #endregion
-
-        #region Private Members
-
-        private ContactItem FindByName( string name )
-        { 
+        public ContactItem FindByName( string name )
+        {
             return (from m in _contacts
                     where String.Compare(name, m.ContactName, true) == 0
                     select m).FirstOrDefault();
         }
+
+        #endregion
+
+        #region Private Members
 
         private List<ContactItem> _contacts = new List<ContactItem>();
 

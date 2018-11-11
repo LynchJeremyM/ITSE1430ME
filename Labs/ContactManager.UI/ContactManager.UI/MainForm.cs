@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace ContactManager.UI
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IValidatableObject
     {
         #region Construction
         public MainForm()
@@ -36,6 +37,15 @@ namespace ContactManager.UI
 
         #endregion
 
+        #region Public Members
+
+        public IEnumerable<ValidationResult> Validate( ValidationContext validationContext )
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+       
         #region Event Handlers
 
         private void OnHelpAbout( object sender, EventArgs e )
@@ -57,6 +67,8 @@ namespace ContactManager.UI
             var form = new ContactForm();
             if (form.ShowDialog(this) == DialogResult.Cancel)
                return;
+
+            Compare(form);
 
             _contacts.Add(form.Contact);
             RefreshContacts();
@@ -100,6 +112,15 @@ namespace ContactManager.UI
 
         #region Private Members
 
+        private void Compare(ContactForm contact)
+        {
+            while (_contacts.FindByName(contact.Contact.ContactName) != null)
+            {
+                MessageBox.Show("Name must be unique.", "Close");
+                EditContact(contact);
+            } 
+        }
+
         private void RefreshContacts()
         {
             var contacts = from m in _contacts.GetAll()
@@ -125,6 +146,15 @@ namespace ContactManager.UI
 
             _contacts.Edit(item.ContactName, form.Contact);
             RefreshContacts();
+        }
+
+        private void EditContact(ContactForm contact)
+        {
+            var form = new ContactForm();
+            form.Contact = contact.Contact;
+
+            if (contact.ShowDialog(this) == DialogResult.Cancel)
+                return;
         }
 
         private void RefreshMessages()
