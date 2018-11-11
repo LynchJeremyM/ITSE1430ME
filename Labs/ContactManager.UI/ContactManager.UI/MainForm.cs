@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace ContactManager.UI
 {
-    public partial class MainForm : Form, IValidatableObject
+    public partial class MainForm : Form
     {
         #region Construction
         public MainForm()
@@ -29,19 +29,10 @@ namespace ContactManager.UI
 
             _contactList.DisplayMember = "ContactName";
 
-            _messageList.DisplayMember = "Subject";
+            _messageList.DisplayMember = "EmailAddress";
 
             RefreshContacts();
             RefreshMessages();
-        }
-
-        #endregion
-
-        #region Public Members
-
-        public IEnumerable<ValidationResult> Validate( ValidationContext validationContext )
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

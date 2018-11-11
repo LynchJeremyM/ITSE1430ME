@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this._errors = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,25 +38,27 @@
             this.deleteContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this._contactList = new System.Windows.Forms.ListBox();
             this._messageList = new System.Windows.Forms.ListBox();
-            this.menuStrip1.SuspendLayout();
+            this._errors.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // _errors
             // 
-            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this._errors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._errors.Dock = System.Windows.Forms.DockStyle.None;
+            this._errors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.contactsToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(155, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.helpToolStripMenuItem,
+            this.toolStripMenuItem1});
+            this._errors.Location = new System.Drawing.Point(0, 0);
+            this._errors.Name = "_errors";
+            this._errors.Size = new System.Drawing.Size(155, 24);
+            this._errors.TabIndex = 0;
+            this._errors.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -88,7 +90,7 @@
             // sendMessageToolStripMenuItem
             // 
             this.sendMessageToolStripMenuItem.Name = "sendMessageToolStripMenuItem";
-            this.sendMessageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sendMessageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.sendMessageToolStripMenuItem.Text = "Send Message";
             this.sendMessageToolStripMenuItem.Click += new System.EventHandler(this.OnContactSendMessage);
             // 
@@ -96,14 +98,14 @@
             // 
             this.addContactToolStripMenuItem.Name = "addContactToolStripMenuItem";
             this.addContactToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.addContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addContactToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.addContactToolStripMenuItem.Text = "Add";
             this.addContactToolStripMenuItem.Click += new System.EventHandler(this.OnContactAdd);
             // 
             // editContactToolStripMenuItem
             // 
             this.editContactToolStripMenuItem.Name = "editContactToolStripMenuItem";
-            this.editContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editContactToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.editContactToolStripMenuItem.Text = "Edit";
             this.editContactToolStripMenuItem.Click += new System.EventHandler(this.OnContactEdit);
             // 
@@ -111,7 +113,7 @@
             // 
             this.deleteContactToolStripMenuItem.Name = "deleteContactToolStripMenuItem";
             this.deleteContactToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteContactToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.deleteContactToolStripMenuItem.Text = "Remove";
             this.deleteContactToolStripMenuItem.Click += new System.EventHandler(this.OnContactRemove);
             // 
@@ -131,6 +133,11 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnHelpAbout);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(12, 20);
+            // 
             // _contactList
             // 
             this._contactList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -144,14 +151,14 @@
             // 
             // _messageList
             // 
-            this._messageList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this._messageList.FormattingEnabled = true;
-            this._messageList.Location = new System.Drawing.Point(139, 24);
+            this._messageList.Items.AddRange(new object[] {
+            "EmailAddress",
+            "Subject",
+            "Message"});
+            this._messageList.Location = new System.Drawing.Point(140, 24);
             this._messageList.Name = "_messageList";
-            this._messageList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this._messageList.Size = new System.Drawing.Size(512, 394);
+            this._messageList.Size = new System.Drawing.Size(500, 394);
             this._messageList.TabIndex = 2;
             // 
             // MainForm
@@ -161,13 +168,13 @@
             this.ClientSize = new System.Drawing.Size(652, 422);
             this.Controls.Add(this._messageList);
             this.Controls.Add(this._contactList);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this._errors);
+            this.MainMenuStrip = this._errors;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Contact Manager";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this._errors.ResumeLayout(false);
+            this._errors.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,7 +182,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip _errors;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -186,6 +193,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteContactToolStripMenuItem;
         private System.Windows.Forms.ListBox _contactList;
         private System.Windows.Forms.ToolStripMenuItem sendMessageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ListBox _messageList;
     }
 }
