@@ -4,6 +4,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -85,20 +86,88 @@ namespace Itse1430.MovieLib.Sql
             };
         }
 
-        private object GetMovieId( Movie oldMovie )
+        private object GetMovieId( Movie movie )
         {
-            return 1;
+            var sql = movie as SqlMovie;
+
+            return sql?.Id ?? 0;
         }
 
         protected override Movie FindByName( string name )
         {
-            throw new NotImplementedException();
+            using (var conn = CreateConnection())
+            {
+                var cmd = new SqlCommand("GetAllMovies", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var movieName = reader.GetString(1);
+                        if (String.Compare(movieName, name, true) != 0)
+                            continue;
+
+                        //reader.GetOrdinal("Id");
+
+                        return new SqlMovie()
+                        {
+                            Id = reader.GetFieldValue<int>(0),
+                            Name = movieName,
+                            Description = Convert.ToString(reader.GetValue(2)),
+                            ReleaseYear = 1900,
+                            RunLength = reader.GetFieldValue<int>(3),
+                            IsOwned = reader.GetBoolean(4),
+                        };
+                    };
+                };
+
+            };
+
+            return null;
         }
 
         protected override IEnumerable<Movie> GetAllCore()
         {
+            var ds = new DataSet();
+
+            using (var conn = CreateConnection())
+            {
+                var da = new SqlDataAdapter();
+                var cmd = new SqlCommand("GetAllMovies", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                da.SelectCommand = cmd;
+                da.Fill(ds);
+            };
+
+            //Read data
+            //if (!ds.Tables.OfType<DataTable>().Any())
+              //  return Enumerable.Empty<Movie>();
+
+            var table = ds.Tables.OfType<DataTable>().FirstOrDefault();
+            if (table == null)
+                return Enumerable.Empty<Movie>();
+
+            var movies = new List<Movie>();
+            foreach (var row in table.Rows.OfType<DataRow>())
+            {
+                var movie = new SqlMovie()
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    Name = row.Field<string>("Title"),
+                    Description = Convert.ToString(row[2]),
+                    ReleaseYear = 1900,
+                    RunLength = row.Field<int>(3),
+                    IsOwned = Convert.ToBoolean(row[4]),
+                };
+                movies.Add(movie);
+            };
+
+            return movies;
             //throw new NotImplementedException();
-            return new Movie[0];
+            //return new Movie[0];
         }
 
         protected override void RemoveCore( string name )
@@ -119,6 +188,7 @@ namespace Itse1430.MovieLib.Sql
                 conn.Open();
                 cmd.ExecuteNonQuery();
             };
+
         }
 
         private SqlConnection CreateConnection()
