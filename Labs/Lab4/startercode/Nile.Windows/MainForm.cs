@@ -93,6 +93,12 @@ namespace Nile.Windows
             e.SuppressKeyPress = true;
         }
 
+
+        private void OnHelpAbout( object sender, EventArgs e )
+        {
+
+        }
+
         #endregion
 
         #region Private Members
