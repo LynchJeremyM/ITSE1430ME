@@ -70,6 +70,14 @@ namespace Nile.Windows
             };
 
             //TODO: Validate product
+            var results = ObjectValidator.Validate(product);
+            foreach (var result in results)
+            {
+                //var firstMessage = results[0];
+                MessageBox.Show(this, result.ErrorMessage, "Validation Failed",
+                                MessageBoxButtons.OK);
+                return;
+            };
 
             Product = product;
             DialogResult = DialogResult.OK;

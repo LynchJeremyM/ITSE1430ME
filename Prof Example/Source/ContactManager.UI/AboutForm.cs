@@ -11,7 +11,7 @@ namespace ContactManager.UI
 {
     partial class AboutForm : Form
     {
-        public AboutForm ()
+        public AboutForm()
         {
             InitializeComponent();
             this.Text = String.Format("About {0}", AssemblyTitle);
@@ -101,5 +101,6 @@ namespace ContactManager.UI
             }
         }
         #endregion
+
     }
 }

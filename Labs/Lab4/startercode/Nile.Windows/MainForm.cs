@@ -96,7 +96,8 @@ namespace Nile.Windows
 
         private void OnHelpAbout( object sender, EventArgs e )
         {
-
+            var form = new AboutForm();
+            form.ShowDialog(this);
         }
 
         #endregion
