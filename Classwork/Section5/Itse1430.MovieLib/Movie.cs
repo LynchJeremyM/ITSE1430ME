@@ -45,7 +45,7 @@ namespace Itse1430.MovieLib
         public int RunLength { get; set; }
         
         //Using mixed accessibility
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         //Using calculated property with no setter
         public bool IsColor => ReleaseYear > 1940;
