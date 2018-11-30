@@ -1,9 +1,9 @@
-﻿using System;
+﻿/* Jeremy Lynch
+ * 11/27/2018
+ * ITSE 1430
+ */
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nile
 {

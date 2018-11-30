@@ -1,8 +1,12 @@
-/*
+/* Jeremy Lynch
+ * 11/27/2018
  * ITSE 1430
  */
 using System;
+using System.Configuration;
+using System.Linq;
 using System.Windows.Forms;
+using Niles.Stores.Sql;
 
 namespace Nile.Windows
 {
@@ -168,7 +172,15 @@ namespace Nile.Windows
             //TODO: Handle errors
             try
             {
-                _bsProducts.DataSource = _database.GetAll();
+                string connString = ConfigurationManager.ConnectionStrings["ProductDatabase"].ConnectionString;
+                _database = new SqlNilesDatabase(connString);
+
+                var products = from p in _database.GetAll()
+                               orderby p.Name
+                               select p;
+
+                _bsProducts.DataSource = products;
+                
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error",
@@ -176,7 +188,7 @@ namespace Nile.Windows
             };          
         }
 
-        private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
+        private IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
         #endregion
     }
 }

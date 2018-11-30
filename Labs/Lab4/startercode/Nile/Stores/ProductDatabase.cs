@@ -1,9 +1,9 @@
-/*
+/* Jeremy Lynch
+ * 11/27/2018
  * ITSE 1430
  */
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Nile.Stores
 {

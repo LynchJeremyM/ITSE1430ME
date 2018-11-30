@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿/* Jeremy Lynch
+ * 11/27/2018
+ * ITSE 1430
+ */
+
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Nile.Windows
 {
     public partial class AboutForm : Form
     {
+        #region Construction
+
         public AboutForm()
         {
             InitializeComponent();
@@ -21,6 +21,8 @@ namespace Nile.Windows
             this.textBoxTrademark.Text = AssemblyTrademark;
             this.textBoxDescription.Text = AssemblyDescription;
         }
+
+        #endregion
 
         #region Event Handlers
 
