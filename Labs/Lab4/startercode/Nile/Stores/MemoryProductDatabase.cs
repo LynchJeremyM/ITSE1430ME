@@ -15,7 +15,14 @@ namespace Nile.Stores
         protected override Product AddCore ( Product product )
         {
             var newProduct = CopyProduct(product);
-            _products.Add(newProduct);
+
+            if (!FindProductName(newProduct.Name))
+            {
+                _products.Add(newProduct);
+            } else
+            {
+                throw new ArgumentException("Name already exists.", nameof(product));            
+            }          
 
             if (newProduct.Id <= 0)
                 newProduct.Id = _nextId++;
@@ -59,9 +66,16 @@ namespace Nile.Stores
             //Replace 
             existing = FindProduct(product.Id);
             _products.Remove(existing);
-            
+
             var newProduct = CopyProduct(product);
-            _products.Add(newProduct);
+            if (!FindProductName(newProduct.Name))
+            {
+                _products.Add(newProduct);
+            } else
+            {
+                _products.Add(existing);
+                throw new ArgumentException("Name already exists.", nameof(product));
+            }
 
             return CopyProduct(newProduct);
         }
@@ -88,6 +102,17 @@ namespace Nile.Stores
             };
 
             return null;
+        }
+
+        private bool FindProductName( string name )
+        {
+            foreach (var product in _products)
+            {
+                if (product.Name == name)
+                    return true;
+            };
+
+            return false;
         }
 
         private List<Product> _products = new List<Product>();

@@ -16,6 +16,13 @@ namespace Nile.Stores
         public Product Add ( Product product )
         {
             //TODO: Check arguments
+            if (product.Name == null)
+                throw new ArgumentNullException(nameof(product));
+            else if (product.Name == "")
+                throw new ArgumentException(nameof(product));
+
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
 
             //TODO: Validate product
             ObjectValidator.Validate(product);
@@ -29,6 +36,8 @@ namespace Nile.Stores
         public Product Get ( int id )
         {
             //TODO: Check arguments
+            if (String.IsNullOrEmpty(id.ToString()))
+                throw new ArgumentNullException(nameof(id));
 
             return GetCore(id);
         }
@@ -45,6 +54,8 @@ namespace Nile.Stores
         public void Remove ( int id )
         {
             //TODO: Check arguments
+            if (String.IsNullOrEmpty(id.ToString()))
+                throw new ArgumentNullException (nameof(id));
 
             RemoveCore(id);
         }
@@ -55,6 +66,13 @@ namespace Nile.Stores
         public Product Update ( Product product )
         {
             //TODO: Check arguments
+            if (product.Name == null)
+                throw new ArgumentNullException(nameof(product));
+            else if (product.Name == "")
+                throw new ArgumentException(nameof(product));
+
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
 
             //TODO: Validate product
             ObjectValidator.Validate(product);

@@ -39,8 +39,16 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Save product
-            _database.Add(child.Product);
+            try
+            {
+                //Save product
+                _database.Add(child.Product);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
             UpdateList();
         }
 
@@ -112,8 +120,17 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Delete product
-            _database.Remove(product.Id);
+            try
+            {
+                //Delete product
+                _database.Remove(product.Id);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+               
             UpdateList();
         }
 
@@ -125,8 +142,16 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Save product
-            _database.Update(child.Product);
+            try
+            {
+                //Save product
+                _database.Update(child.Product);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
             UpdateList();
         }
 
@@ -141,8 +166,14 @@ namespace Nile.Windows
         private void UpdateList ()
         {
             //TODO: Handle errors
-
-            _bsProducts.DataSource = _database.GetAll();
+            try
+            {
+                _bsProducts.DataSource = _database.GetAll();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };          
         }
 
         private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
