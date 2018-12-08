@@ -34,6 +34,7 @@ namespace Movie.MVC.Models
                 IsOwned = IsOwned
             };
         }
+
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
 

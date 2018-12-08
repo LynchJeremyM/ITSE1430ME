@@ -1,12 +1,11 @@
-/* Jeremy Lynch
- * 11/27/2018
+/*
  * ITSE 1430
  */
 using System;
 using System.Configuration;
-using System.Linq;
 using System.Windows.Forms;
-using Niles.Stores.Sql;
+
+using Nile.Stores.Sql;
 
 namespace Nile.Windows
 {
@@ -26,6 +25,8 @@ namespace Nile.Windows
 
             _gridProducts.AutoGenerateColumns = false;
 
+            _database = LoadDatabase();
+
             UpdateList();
         }
 
@@ -39,19 +40,16 @@ namespace Nile.Windows
         private void OnProductAdd( object sender, EventArgs e )
         {
             var child = new ProductDetailForm("Product Details");
-            if (child.ShowDialog(this) != DialogResult.OK)
-                return;
 
-            //TODO: Handle errors
-            try
+            do
             {
-                //Save product
-                _database.Add(child.Product);
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
+                if (child.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                if (TryAction("Add Failed", () => _database.Add(child.Product)))
+                    break;
+
+            } while (true);
 
             UpdateList();
         }
@@ -105,13 +103,6 @@ namespace Nile.Windows
             e.SuppressKeyPress = true;
         }
 
-
-        private void OnHelpAbout( object sender, EventArgs e )
-        {
-            var form = new AboutForm();
-            form.ShowDialog(this);
-        }
-
         #endregion
 
         #region Private Members
@@ -123,39 +114,23 @@ namespace Nile.Windows
                                 "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-            //TODO: Handle errors
-            try
-            {
-                //Delete product
-                _database.Remove(product.Id);
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+            if (TryAction("Delete Failed", () => _database.Remove(product.Id)))
                 UpdateList();
-            };
-
         }
 
         private void EditProduct ( Product product )
         {
             var child = new ProductDetailForm("Product Details");
 
-
-            //TODO: Handle errors
-            try
+            do
             {
                 child.Product = product;
                 if (child.ShowDialog(this) != DialogResult.OK)
                     return;
-                //Save product
-                _database.Update(child.Product);
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
+
+                if (TryAction("Update Failed", () => _database.Update(child.Product)))
+                    break;
+            } while (true);
 
             UpdateList();
         }
@@ -168,28 +143,35 @@ namespace Nile.Windows
             return null;
         }
 
-        private void UpdateList ()
+        private IProductDatabase LoadDatabase ()
         {
-            //TODO: Handle errors
-            try
-            {
-                string connString = ConfigurationManager.ConnectionStrings["ProductDatabase"].ConnectionString;
-                _database = new SqlNilesDatabase(connString);
+            var connString = ConfigurationManager.ConnectionStrings["ProductDatabase"];
+            if (connString == null)
+                throw new InvalidOperationException("Database connection string not found.");
 
-                var products = from p in _database.GetAll()
-                               orderby p.Name
-                               select p;
-
-                _bsProducts.DataSource = products;
-                
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };          
+            return new SqlProductDatabase(connString.ConnectionString);
         }
 
-        private IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
+        private bool TryAction ( string title, Action action )
+        {
+            try
+            {
+                action();
+                return true;
+            } catch (Exception e)
+            {
+                MessageBox.Show(this, e.Message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            return false;
+        }
+
+        private void UpdateList ()
+        {
+            TryAction("Load Failed", () => _bsProducts.DataSource = _database.GetAll());
+        }
+
+        private IProductDatabase _database;
         #endregion
     }
 }
