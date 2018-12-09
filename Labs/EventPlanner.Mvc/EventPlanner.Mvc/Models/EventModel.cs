@@ -1,8 +1,10 @@
-﻿using System;
+﻿/* Jeremy Lynch
+ * ITSE 1430
+ * 12/9/2018
+ */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace EventPlanner.Mvc.Models
 {
@@ -13,25 +15,26 @@ namespace EventPlanner.Mvc.Models
         public EventModel(ScheduledEvent evt)
         {
             if (evt != null)
-                if(!evt.IsPublic)
-                {
-                    Id = evt.Id;
-                    Name = evt.Name;
-                    Description = evt.Description;
-                    StartDate = evt.StartDate;
-                    EndDate = evt.EndDate;
-                };
+            {
+                Id = evt.Id;
+                Name = evt.Name;
+                Description = evt.Description;
+                StartDate = evt.StartDate;
+                EndDate = evt.EndDate;
+                IsPublic = evt.IsPublic;
+            }
         }
 
         public ScheduledEvent ToDomain()
         {
-            return new ScheduledEvent
+            return new ScheduledEvent()
             {
                 Id = Id,
                 Name = Name,
                 Description = Description,
                 StartDate = StartDate,
-                EndDate = EndDate
+                EndDate = EndDate,
+                IsPublic = IsPublic
             };
         }
 

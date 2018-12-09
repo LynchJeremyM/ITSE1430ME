@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿<!--
+Jeremy Lynch
+ITSE 1430
+12/9/2018
+-->
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,12 +14,14 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                </ul>
-            </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("My Events", "My", "Event")</li>
+                <li>@Html.ActionLink("Public Events", "Public", "Event")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+            </ul>
+        </div>
     </div>
     <div class="container body-content">
         @RenderBody()
