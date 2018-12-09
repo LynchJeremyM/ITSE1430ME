@@ -129,12 +129,11 @@ namespace EventPlanner.Mvc.Controllers
                 try
                 {
                     var item = model.ToDomain();
-                    var criteria = new EventCriteria();
-                    criteria.IncludePrivate = true;
-                    criteria.IncludePublic = true;
-                    var existing = _database.GetAll(criteria).FirstOrDefault(i => i.Id == model.Id);
 
-                    _database.Update(existing.Id, item);
+                    if(model.Id.ToString() == null)
+                        return HttpNotFound();
+
+                    _database.Update(item.Id, item);
 
                     if (item.IsPublic)
                     {
@@ -145,7 +144,6 @@ namespace EventPlanner.Mvc.Controllers
                 } catch (Exception e)
                 {
                     ModelState.AddModelError("", e.Message);
-                    return HttpNotFound();
                 }
             }
 
@@ -168,6 +166,9 @@ namespace EventPlanner.Mvc.Controllers
         {
             try
             {
+                if (model.Id.ToString() == null)
+                    return HttpNotFound();
+
                 _database.Remove(model.Id);
 
                 if(model.IsPublic)
@@ -179,7 +180,7 @@ namespace EventPlanner.Mvc.Controllers
             }catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return HttpNotFound();
+                return View(model);
             }
         }
 
